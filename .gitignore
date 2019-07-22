@@ -300,3 +300,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+MinesweeperPractice.sln
+MinesweeperPractice/MinesweeperPractice.vcxproj.filters
+MinesweeperPractice/targetver.h
+MinesweeperPractice/stdafx.cpp
+MinesweeperPractice/stdafx.h
+MinesweeperPractice/MinesweeperPractice.vcxproj
