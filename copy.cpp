@@ -7,7 +7,7 @@
 #include <vector>
 #include <time.h>       /* time */
 
-
+//x
 
 
 void initializeBoard(int boardSize, std::vector<std::vector<bool> > &board);
@@ -19,6 +19,9 @@ void displayMines(std::vector<std::vector<bool> > &board);
 void displayBoard(std::vector<std::vector<int> > &board);
 
 void displayHeader(int size);
+
+bool update(int row, int col, std::vector<std::vector<bool> > &board, std::vector<std::vector<int> > &displayBoard);
+
 
 
 
@@ -86,6 +89,7 @@ int main()
 
 		// Display Board
 		displayMines(board);
+		std::cout << std::endl;
 
 		displayBoard(display_board);
 
@@ -103,24 +107,28 @@ int main()
 		std::cin >> row;
 
 		std::cout << "Enter the column" << std::endl;
-		std::cin >> row;
+		std::cin >> col;
 
 		std::cout << std::endl;
 
 
 		// Process Input
+		//DEBUG
+		//display_board[row][col] = 1;
+
 
 		//If 
 		if (board[row][col] == true)
 		{
 			//DEBUG 
 			std::cout << "Mine Found!!" << std::endl;
-
 		}
 		else
 		{
 			//DEBUG 
 			std::cout << "Empty Space" << std::endl;
+			//update(row, col, board, display_board);
+
 		}
 
 		//DEBUG
@@ -150,7 +158,7 @@ void initializeBoard(int boardSize, std::vector<std::vector<bool> > &board)
 void initializeDisplayBoard(int boardSize, std::vector<std::vector<int> > &displayBoard)
 {
 	//Row Contents
-	std::vector<int> row(boardSize, false);
+	std::vector<int> row(boardSize, 0);
 
 	//Each row is a copy of the first
 	for (int i = 0; i < boardSize; i++)
@@ -231,6 +239,11 @@ void displayMines(std::vector<std::vector<bool> > &board)
 
 	// Print out the elements
 	for (int i = 0; i<board.size(); i++) {
+
+		//Print Row number
+		std::cout << i << "|";
+
+
 		for (int j = 0; j<board[i].size(); j++)
 			std::cout << board[i][j] << " ";
 		std::cout << std::endl;
@@ -258,5 +271,56 @@ void displayHeader(int size )
 	}
 
 	std::cout << std::endl;
+}
+
+bool update(int row, int col, std::vector<std::vector<bool> > &board, std::vector<std::vector<int> > &displayBoard)
+{
+	//check x and y boundaries // < 0 or > board.size
+	if(row < 0 || col < 0)
+	{
+		return false;
+	}
+	if (row >= board.size() || col >= board.size())
+	{
+		return false;
+	}
+
+	// Check if this location has a mine
+	if (board[row][col] == true)
+	{
+		return true;
+	}
+	else // Check surrounding spaces
+	{
+
+
+		//Count the mines around
+		int count = 0;
+
+		// check
+		// top left
+
+
+
+		// top
+		if (update(row - 1, col, board, displayBoard))
+		{
+			count = count + 1;
+		}
+
+		// top right 
+		// right
+		// bottom right 
+		// bottom
+		// bottom left
+		// left
+
+		std::cout << "count: " << count << std::endl;
+
+		//Update the value at this location
+		displayBoard[row][col] = count;
+
+		return false;
+	}
 }
 
