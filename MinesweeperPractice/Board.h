@@ -7,7 +7,6 @@
 class Board
 {
 
-
 public:
 	Board();
 
@@ -41,4 +40,3 @@ private:
 	int  mineCount(int row, int col);	// helper function
 
 };
-
