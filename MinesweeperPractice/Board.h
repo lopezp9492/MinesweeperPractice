@@ -19,8 +19,9 @@ public:
 	void displayMines();
 	void display();
 
-	bool clear(int row, int col);
+	void clearArea(int row, int col );	// helper // Clears and Resets
 	bool check(int row, int col);
+
 
 private:
 
@@ -34,7 +35,10 @@ private:
 	void resetCheckedLocations(int size);
 	void resetDisplayBoard(int size);
 
-	void displayHeader(int size);		//helper function
-	bool inRange(int start, int end);	//helper funcion
+	void displayHeader(int size);		// helper function
+	bool inRange(int start, int end);	// helper function
+	bool clear(int row, int col);		// recursive
+	int  mineCount(int row, int col);	// helper function
+
 };
 
