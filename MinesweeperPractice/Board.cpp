@@ -117,7 +117,7 @@ void Board::clearArea(int row, int col)
 bool Board::clear(int row, int col)
 {
 	//DEBUG
-	std::cout << "[row, col]" << "[" << row << ", " << col << "]" << std::endl;
+	//std::cout << "[row, col]" << "[" << row << ", " << col << "]" << std::endl;
 
 	//Check Range
 	if (!inRange(row, col))
@@ -151,7 +151,7 @@ bool Board::clear(int row, int col)
 	clear(row  , col-1); // left
 
 	//DEBUG
-	std::cout << "count: " << count << std::endl;
+	//std::cout << "count: " << count << std::endl;
 
 	//Update the value at this location
 	display_board_[row][col] = count;
