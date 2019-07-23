@@ -6,21 +6,23 @@
 #include <iomanip>      // std::setprecision
 #include <vector>
 #include <time.h>       /* time */
+#include "Board.h"
+
 
 //x
 
 
-void initializeBoard(int boardSize, std::vector<std::vector<bool> > &board);
-void initializeDisplayBoard(int board_size, std::vector<std::vector<int> > &display_board);
+//void initializeBoard(int boardSize, std::vector<std::vector<bool> > &board);
+//void initializeDisplayBoard(int board_size, std::vector<std::vector<int> > &display_board);
 
-void fillBoard(int board_size, double fillPercent, std::vector<std::vector<bool> > &board);
+//void fillBoard(int board_size, double fillPercent, std::vector<std::vector<bool> > &board);
 
-void displayMines(std::vector<std::vector<bool> > &board);
-void displayBoard(std::vector<std::vector<int> > &board);
+//void displayMines(std::vector<std::vector<bool> > &board);
+//void displayBoard(std::vector<std::vector<int> > &board);
 
-void displayHeader(int size);
+//void displayHeader(int size);
 
-bool update(int row, int col, std::vector<std::vector<bool> > &board, std::vector<std::vector<int> > &displayBoard);
+//bool update(int row, int col, std::vector<std::vector<bool> > &board, std::vector<std::vector<int> > &displayBoard);
 
 
 
@@ -51,9 +53,12 @@ int main()
 	//Vars and Data Structures
 	int board_size = 0;
 	double input_fill = 0.0;
-	std::vector<std::vector<bool> > board;			// Board containing the locations of the mines
-	std::vector<std::vector<int> > display_board;	// Board shown to the Players
+	//std::vector<std::vector<bool> > board;			// Board containing the locations of the mines
+	//std::vector<std::vector<int> > display_board;	// Board shown to the Players
 	bool playing = true;
+	Board board;
+
+
 
 	// Program Loop
 
@@ -62,21 +67,27 @@ int main()
 	std::cin >> board_size;
 
 	//Initialize Board
-	initializeBoard(board_size, board);
-	initializeDisplayBoard(board_size, display_board);
+	board.initializeSize(board_size);
+	//initializeBoard(board_size, board);
+	//initializeDisplayBoard(board_size, display_board);
 
 	// Input Fill Percent
 	std::cout << "Enter fill percent (0.0 to 1)" << std::endl;
 	std::cin >> input_fill;
 
 	// Fill Board
-	fillBoard(board_size, input_fill, board);
+	board.fill(input_fill);
+	//fillBoard(board_size, input_fill, board);
 
 	//Test Output 
 	std::cout << "board_size = " << board_size << std::endl;
 	std::cout << "input_fill = " << input_fill << std::endl;
-	displayMines(board);
-	displayBoard(display_board);
+
+	board.displayMines();
+	board.display();
+	//displayMines(board);
+	//displayBoard(display_board);
+	system("pause");
 
 
 	
@@ -88,10 +99,12 @@ int main()
 		system("cls");
 
 		// Display Board
-		displayMines(board);
+		board.displayMines();
+		//displayMines(board);
 		std::cout << std::endl;
 
-		displayBoard(display_board);
+		board.display();
+		//displayBoard(display_board);
 
 		// Get Input 
 
@@ -117,17 +130,20 @@ int main()
 		//display_board[row][col] = 1;
 
 
-		//If 
-		if (board[row][col] == true)
+		//If theres a mine at (row, col)
+		if (board.check(row, col) )
 		{
 			//DEBUG 
-			std::cout << "Mine Found!!" << std::endl;
+			std::cout << "Mine Exploded!!" << std::endl;
+			//Try Again? y/n
+			//Yes	-> return to start
+			//No	-> Close Program
 		}
 		else
 		{
 			//DEBUG 
 			std::cout << "Empty Space" << std::endl;
-			//update(row, col, board, display_board);
+			board.update(row, col);
 
 		}
 
@@ -139,6 +155,22 @@ int main()
 
     return 0;
 }
+
+bool inRange(int row, int col, int start, int end)
+{
+	//check x and y boundaries // < 0 or > board.size
+	if (row < start || col < start)
+	{
+		return false;
+	}
+	if (row >= end || col >= end)
+	{
+		return false;
+	}
+	return true;
+}
+
+/*
 
 // Creates a 2d Vector of booleans filled with false 
 void initializeBoard(int boardSize, std::vector<std::vector<bool> > &board)
@@ -167,12 +199,14 @@ void initializeDisplayBoard(int boardSize, std::vector<std::vector<int> > &displ
 	}
 }
 
+*/
 
+/*
 
 // Fills up the board with mines
 void fillBoard(int board_size, double fillGoal, std::vector<std::vector<bool> > &board)
 {
-	/* initialize random seed: */
+	//  initialize random seed: 
 	srand(time(NULL));
 
 	int mine_count = 0;
@@ -322,5 +356,8 @@ bool update(int row, int col, std::vector<std::vector<bool> > &board, std::vecto
 
 		return false;
 	}
+
+	
 }
+*/
 
