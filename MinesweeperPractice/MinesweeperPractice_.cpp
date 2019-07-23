@@ -9,8 +9,7 @@
 #include "Board.h"
 
 bool inRange(int val, int start, int end);
-
-
+int getInteger(const char * prompt, int start, int  end);
 
 int main()
 {
@@ -32,7 +31,7 @@ int main()
 		// Get Input 
 		// Process Input
 
-	//----------------------//
+	//---Implementation-------------------//
 
 	//Vars and Data Structures
 	int board_size = 0;
@@ -68,70 +67,86 @@ int main()
 	int col = 0;
 	while (playing)
 	{
-		system("cls");
+		system("cls"); //clear console
 
 		// Display Board
-		board.displayMines();
+		//board.displayMines(); //Testing
 		std::cout << std::endl;
 
 		board.display();
 
-		// Get Input // TODO
+		// Get Input
 
-		// Place Flag? Y/N?
-
-			//Select Row and Col 
-			//Go back to loop start
-
-		//Enter Row and Col of Space to Check
-
-		bool gettingRow = true;
-		while (gettingRow)
+		// --- Prompt: Place Flag? [y/n]? --------------------------//
+		//y -> Select Row and Col 
+		//n -> Continue
+		char input1;
+		do
 		{
-			std::cout << "Enter the row" << std::endl;
-			std::cin >> row;
-			if (inRange(row, 0, board_size))
+			std::cout << "Place Flag ? [y/n]" << std::endl;
+			std::cin >> input1;
+		} while (!std::cin.fail() && input1 != 'y' && input1 != 'n');
+
+		if (input1 == 'y')
+		{
+			//Enter Row and Col of Space to place a Flag
+			std::cout << "Select space to clear. " << std::endl;
+
+			row = getInteger("Enter the row", 0, board_size);
+			col = getInteger("Enter the column", 0, board_size);
+
+			//Extra Line for spacing
+			std::cout << std::endl;
+
+
+			// --- Process Input ------------------------------//
+
+			board.flag(row, col);
+		}
+
+		// --- Prompt: Clear space? [y/n] ------------------------------//
+
+		//y -> Select Row and Col 
+		//n -> Continue
+		char input2;
+		do
+		{
+			std::cout << "Clear space? [y/n]" << std::endl;
+			std::cin >> input2;
+		} while (!std::cin.fail() && input2 != 'y' && input2 != 'n');
+
+		if (input2 == 'y')
+		{
+			//Enter Row and Col of Space to Clear
+			std::cout << "Select space to clear. " << std::endl;
+
+			row = getInteger("Enter the row" , 0, board_size);
+			col = getInteger("Enter the column", 0, board_size);
+
+			//Extra Line for spacing
+			std::cout << std::endl;
+
+
+			// --- Process Input ------------------------------//
+
+			//If theres a mine at (row, col)
+			if (board.check(row, col))
 			{
-				gettingRow = false;
+				//DEBUG 
+				std::cout << "Mine Exploded!! :(" << std::endl;
+				std::cout << "GAME OVER!" << std::endl;
+
+				//Try Again? y/n
+				//Yes	-> return to start
+				//No	-> Close Program
+				playing = false;
 			}
-		}
-
-		bool gettingCol = true;
-		while (gettingCol)
-		{
-			std::cout << "Enter the column" << std::endl;
-			std::cin >> col;
-
-			if (inRange(col, 0, board_size))
+			else
 			{
-				gettingCol = false;
+				// DEBUG 
+				// std::cout << "Empty Space" << std::endl;
+				board.clearArea(row, col);
 			}
-		}
-
-		//Extra Line for spacing
-		std::cout << std::endl;
-
-
-		// Process Input // Check for Valid Range
-
-		//DEBUG
-		//display_board[row][col] = 1;
-
-
-		//If theres a mine at (row, col)
-		if (board.check(row, col) )
-		{
-			//DEBUG 
-			std::cout << "Mine Exploded!! :(" << std::endl;
-			//Try Again? y/n
-			//Yes	-> return to start
-			//No	-> Close Program
-		}
-		else
-		{
-			// DEBUG 
-			// std::cout << "Empty Space" << std::endl;
-			board.clearArea(row, col);
 		}
 
 		//DEBUG
@@ -149,4 +164,20 @@ bool inRange(int val, int start, int end)
 		return false;
 	}
 	return true;
+}
+
+int getInteger(const char * prompt, int start, int  end)
+{
+	int value = 0;
+	bool gettingRow = true;
+	while (gettingRow)
+	{
+		std::cout << prompt << std::endl;
+		std::cin >> value;
+		if (inRange(value, start, end))
+		{
+			gettingRow = false;
+		}
+	}
+	return value;
 }
