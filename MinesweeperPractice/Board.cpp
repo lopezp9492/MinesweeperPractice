@@ -154,7 +154,7 @@ bool Board::clear(int row, int col)
 	//std::cout << "count: " << count << std::endl;
 
 	//Update the value at this location
-	display_board_[row][col] = count;
+	display_board_[row][col] = '0' + count;
 
 	return true;
 }
@@ -241,7 +241,7 @@ bool Board::check(int row, int col)
 
 void Board::flag(int row, int col)
 {
-	display_board_[row][col] = 9;
+	display_board_[row][col] = 'P';
 }
 
 void Board::resetMineLocations(int size)
@@ -278,7 +278,7 @@ void Board::resetDisplayBoard(int size)
 	display_board_.clear();
 
 	//Row Contents
-	std::vector<int> row(size, 0);
+	std::vector<char> row(size, '?');
 
 	//Each row is a copy of the first
 	for (int i = 0; i < size; i++)

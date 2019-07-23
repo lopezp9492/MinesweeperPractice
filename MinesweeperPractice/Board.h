@@ -29,7 +29,7 @@ private:
 	int size_;
 	std::vector<std::vector<bool> > mine_locations_;
 	std::vector<std::vector<bool> > checked_locations_;
-	std::vector<std::vector<int> > display_board_;
+	std::vector<std::vector<char> > display_board_;
 
 	void resetMineLocations(int size);
 	void resetCheckedLocations(int size);
