@@ -97,47 +97,127 @@ void Board::display()
 	}
 
 }
+void Board::clearArea(int row, int col)
+{
+	clear(row, col);
+	resetCheckedLocations(size_);
+}
 
-// TODO
+
+// The clear function reveals the number of adjacent mines.
+// It is a recursive function, uses "checked_locations_" to prevent infinite recursion.
+// If we had an area much larger to check it would be beneficial to change the data structure
+// to a hash
+
+// Note:
+// Recursion happens in 4 cardinal directions
+// Mine count happens in 8 directions
+
+
 bool Board::clear(int row, int col)
 {
-	//Check 
+	//DEBUG
+	std::cout << "[row, col]" << "[" << row << ", " << col << "]" << std::endl;
+
+	//Check Range
 	if (!inRange(row, col))
 	{
 		return false;
 	}
 
+	//Check for mine at this location
+	if (check(row, col))
+	{
+		return false;
+	}
+	//else, there is no mine at this location.
 
+	//Check if this has been recursed before
+	if (checked_locations_[row][col])
+	{
+		return false;
+	}
 
+	//Log it
+	checked_locations_[row][col] = true;
 
-	//Count the mines around
+	//Count in 8 directions
+	int count = mineCount(row, col);
+
+	// Recursion in four directions
+	clear(row-1, col  ); // top
+	clear(row  , col+1); // right
+	clear(row+1, col  ); // botttom
+	clear(row  , col-1); // left
+
+	//DEBUG
+	std::cout << "count: " << count << std::endl;
+
+	//Update the value at this location
+	display_board_[row][col] = count;
+
+	return true;
+}
+
+// returns the total number of mines surrounding this space
+// Counts 8 directions
+int Board::mineCount(int row, int col)
+{
+	//Count the mines around this location.
 	int count = 0;
 
-	// check
-	// top left
-
-
+	// count mines in 8 directions
 
 	// top
-	if (update(row - 1, col, board, displayBoard))
+	if (inRange(row - 1, col) && mine_locations_[row - 1][col])
 	{
 		count = count + 1;
 	}
 
-	// top right 
 	// right
-	// bottom right 
+	if (inRange(row, col + 1) && mine_locations_[row][col + 1])
+	{
+		count = count + 1;
+	}
+
 	// bottom
-	// bottom left
+	if (inRange(row + 1, col) && mine_locations_[row + 1][col])
+
+	{
+		count = count + 1;
+	}
+
 	// left
+	if (inRange(row, col - 1) && mine_locations_[row][col - 1])
+	{
+		count = count + 1;
+	}
 
-	std::cout << "count: " << count << std::endl;
+	//top-right
+	if (inRange(row - 1, col + 1) && mine_locations_[row - 1][col + 1])
+	{
+		count = count + 1;
+	}
 
-	//Update the value at this location
-	displayBoard[row][col] = count;
+	//top-left
+	if (inRange(row - 1, col - 1) && mine_locations_[row - 1][col - 1])
+	{
+		count = count + 1;
+	}
 
-	return false;
-	
+	//bottom-right
+	if (inRange(row + 1, col + 1) && mine_locations_[row + 1][col + 1])
+	{
+		count = count + 1;
+	}
+
+	//bottom-left
+	if (inRange(row + 1, col - 1) && mine_locations_[row + 1][col - 1])
+	{
+		count = count + 1;
+	}
+
+	return count;
 }
 
 bool Board::inRange(int row, int col)
