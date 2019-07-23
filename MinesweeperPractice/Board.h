@@ -20,6 +20,7 @@ public:
 
 	void clearArea(int row, int col );	// helper // Clears and Resets
 	bool check(int row, int col);
+	void flag(int row, int col);
 
 
 private:

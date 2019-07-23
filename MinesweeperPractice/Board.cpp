@@ -239,6 +239,11 @@ bool Board::check(int row, int col)
 	return mine_locations_[row][col];
 }
 
+void Board::flag(int row, int col)
+{
+	display_board_[row][col] = 9;
+}
+
 void Board::resetMineLocations(int size)
 {
 	mine_locations_.clear();
